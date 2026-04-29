@@ -1,0 +1,39 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+
+# ---------------- BUILD STAGE ----------------
+- stage: Build
+  displayName: Build Stage
+
+  jobs:
+  - job: BuildJob
+    displayName: Build Application
+
+    steps:
+    - script: echo "Restoring packages..."
+      displayName: Restore
+
+    - script: echo "Building application..."
+      displayName: Build
+
+    - script: echo "Running tests..."
+      displayName: Test
+
+# ---------------- DEPLOY STAGE ----------------
+- stage: Deploy
+  displayName: Deploy Stage
+  dependsOn: Build
+  condition: succeeded()
+
+  jobs:
+  - job: DeployJob
+    displayName: Deploy Application
+
+    steps:
+    - script: echo "Deploying application..."
+      displayName: Deploy
