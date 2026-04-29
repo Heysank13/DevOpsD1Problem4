@@ -7,11 +7,15 @@ pool:
 steps:
 - task: UseDotNet@2
   inputs:
-    packageType: sdk
-    version: 8.x
+    packageType: 'sdk'
+    version: '10.0.x'
+    includePreviewVersions: true
 
-- script: dotnet restore **/*.csproj
+- script: dotnet --version
+  displayName: Check SDK
+
+- script: dotnet restore DotNetApp.csproj
   displayName: Restore
 
-- script: dotnet build **/*.csproj --configuration Release
+- script: dotnet build DotNetApp.csproj --configuration Release
   displayName: Build
